@@ -1,3 +1,13 @@
+<?php
+require_once 'functions/connect.php';
+mysqli_query($conn, 'DELETE from users WHERE id = 0');
+session_start();
+$user_bool = false;
+if (isset($_SESSION['user_login'])) {
+  $user_bool = true;
+  $user = $_SESSION['user_login'];
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -58,11 +68,12 @@
               <ul class="navbar-nav ml-auto">               
                 <li class="nav-item"><a class="nav-link" href="cart.php"> <i class="fas fa-dolly-flatbed mr-1 text-gray"></i>Cart<small class="text-gray">(2)</small></a></li>
                 <li class="nav-item"><a class="nav-link" href="#"> <i class="far fa-heart mr-1"></i><small class="text-gray"> (0)</small></a></li>
-                <?php if (true) : ?>
+                <?php if (!$user_bool) : ?>
                 <li class="nav-item"><a class="nav-link" href="login/login.php"> <i class="fas fa-user-alt mr-1 text-gray"></i>Login</a></li>
                 <li class="nav-item"><a class="nav-link" href="login/register.php"> <i class="fa-solid fa-arrow-right-to-bracket"></i> Register</a></li>
-                <?php elseif (false) : ?>
+                <?php else : ?>
                 <li class="nav-item"><a class="nav-link" href="login/logout.php"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+                <img style='width:35px;height:35px;margin-left:5px;border-radius: 50%;' src="img/users/<?= $user['image'] ?>" alt="user_image" />
                 <?php endif; ?>
               </ul>
             </div>

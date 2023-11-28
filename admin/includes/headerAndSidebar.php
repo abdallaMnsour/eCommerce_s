@@ -1,3 +1,9 @@
+<?php
+// if (!isset($_SESSION['user_admin'])) {
+//     header('location: ../');
+//     exit;
+// }
+?>
 <!doctype html>
 <html lang="en">
 
@@ -39,6 +45,10 @@
 
     <!-- Sweet Alert-->
     <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Plugins css -->
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body data-topbar="dark">

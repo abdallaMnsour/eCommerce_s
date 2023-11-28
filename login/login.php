@@ -1,3 +1,10 @@
+<?php
+if (isset($_GET['no_user'])) {
+	$email = $_GET['no_user'];
+} else {
+	$email = '';
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,14 +28,14 @@
 					<h4 class="text-center mb-4">
 						Login into account
 					</h4>
-					<form>
+					<form action="../functions/users/login.php" method="post">
 						<div class="form-input">
 							<span><i class="fa fa-envelope-o"></i></span>
-							<input type="email" name="" placeholder="Email Address" tabindex="10"required>
+							<input type="email" name="email" placeholder="Email Address" required value="<?= $email ?? '' ?>" />
 						</div>
 						<div class="form-input">
 							<span><i class="fa fa-key"></i></span>
-							<input type="password" name="" placeholder="Password" required>
+							<input type="password" name="password" placeholder="Password" required>
 						</div>
 							
 						<div class="mb-3 d-flex align-items-center">

@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     isset($_POST['county']) &&
     isset($_POST['city'])
   ) {
-    require_once '../connect.php';
 
+    require_once '../connect.php';
     $empty_errors = [];
     $errors_validate = [];
     $num_error = 0;
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     {
       $value = htmlspecialchars($value);
       $value = trim($value);
-      $value = strtolower($value);
+      // $value = strtolower($value);
       return $value;
     }
 
@@ -41,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = clear($_POST['email']);
     $password1 = clear($_POST['password1']);
     $password2 = clear($_POST['password2']);
+    $address1 = clear($_POST['address1']);
+    $address2 = clear($_POST['address2']);
     $gender = clear($_POST['gender']);
     $phone = clear($_POST['phone']);
     $country = clear($_POST['country']);
@@ -50,6 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     check_empty($username); // 0
     check_empty($email); // 1
     check_empty($password1); // 2
+    check_empty($address1); // 3
+    check_empty($phone); // 4
+    check_empty($county); // 5
+    check_empty($city); // 6
 
     // username validate
     if (isset($empty_errors[0])) {
@@ -92,9 +98,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
     }
 
-    // user gender validate
-    if (!isset($_POST['gender'])) {
+    // gender validate
+    if ($_POST['gender'] != 0 && $_POST['gender'] != 1) {
       $errors_validate['gender'] = 'Must Check on Role cannot be empty.';
+    }
+
+    // address validate
+    if (isset($empty_errors[3])) {
+      $errors_validate['address'] = 'Address cannot be empty.';
+    }
+
+    // phone validate
+    if (isset($empty_errors[4])) {
+      $errors_validate['phone'] = 'Phone cannot be empty.';
+    }
+
+    // country validate
+    $countries = json_decode(file_get_contents('../../js/countries.json'));
+    $errors_validate['country'] = 'The input field has been tampered with. Please try again, and if the problem persists, please <a href="../../contact_us.php">contact us.</a>';
+    foreach ($countries as $value) {
+      if ($country == $value->name) {
+        unset($errors_validate['country']);
+        break;
+      }
+    }
+
+    // county validate
+    if (isset($empty_errors[5])) {
+      $errors_validate['county'] = 'County cannot be empty.';
+    }
+
+    // city validate
+    if (isset($empty_errors[6])) {
+      $errors_validate['city'] = 'City cannot be empty.';
     }
 
     // user type validate
@@ -102,37 +138,102 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //   $errors_validate['type'] = 'Must Check on Role cannot be empty.';
     // }
 
+    // image validate
+    echo '<pre>';
+    print_r($_FILES['image']);
+    $image_name = $_FILES['image']['name'];
+    $image_tmp = $_FILES['image']['tmp_name'];
+    $image_error = $_FILES['image']['error'];
+    $image_size = $_FILES['image']['size'];
+    $image_bool = false;
+
+    if ($image_error == 0) {
+      if ($image_size < 2 * 1024 * 1024) {
+        $ext = ['jpg', 'png', 'jpeg'];
+        $type = explode('.', $image_name);
+        $type = strtolower(end($type));
+        if (in_array($type, $ext)) {
+          $image = uniqid() . '.' . $type;
+          // لم اقم بنقل الصوره عندي لانه اذا لم تنفذ الكويري سوف يقوم برفع صوره رغم ذلك
+          $image_bool = true;
+        } else {
+          $errors_validate['image'] = 'you can only upload an image';
+        }
+      } else {
+        $errors_validate['image'] = 'you\'r image is too big';
+      }
+    } else {
+      $image = 'default.png';
+    }
+
     $_SESSION['person'] = [
       'username' => $username,
       'email' => $email,
       'password1' => $password1,
       'password2' => $password2,
-      'gender' => $gender,
-      // 'type' => $type,
+      'address1' => $address1,
+      'address2' => $address2,
+      'phone' => $phone,
+      'country' => $country,
+      'county' => $county,
+      'city' => $city,
+      'gender' => $gender
     ];
 
     if (empty($errors_validate)) {
 
 
       $password1 = md5($password1);
-      $query = "INSERT INTO users (username, email, password, gender) VALUES ('$username', '$email', '$password1', '$gender')";
+      $query = "INSERT INTO users (
+        username,
+        email,
+        password,
+        gender,
+        address_1,
+        address_2,
+        phone,
+        image,
+        country,
+        county,
+        city
+      ) VALUES (
+        '$username',
+        '$email',
+        '$password1',
+        '$gender',
+        '$address1',
+        '$address2',
+        '$phone',
+        '$image',
+        '$country',
+        '$county',
+        '$city')";
       // mysqli_execute_query($conn, $query);
       if (!mysqli_query($conn, $query)) {
         $_SESSION['errors']['sql'] = mysqli_error($conn);
-        header('location: register.php');
+        header('location: ../../login/register.php');
         exit;
       }
+      if ($image_bool) {
+        move_uploaded_file($image_tmp, '../../img/users/' . $image);
+      }
       session_unset();
-      session_destroy();
-      header('location: users_page.php');
+      $query = "SELECT * FROM users WHERE email = '$email'";
+      $query = mysqli_query($conn, $query);
+      $_SESSION['user_login'] = mysqli_fetch_assoc($query);
+      header('location: ../../');
       exit;
     } else {
       $_SESSION['errors'] = $errors_validate;
-      header('location: register.php');
+      header('location: ../../login/register.php');
       exit;
     }
   } else {
-    $_SESSION['input_false'] = false;
+    $_SESSION['input_false'] = 'The input fields have been manipulated, please try reloading the page.<br>If the problem persists, <a href="../../contact_us.php">please contact us.</a>';
     header('location: ../../login/register.php');
+    exit;
   }
+} else {
+  header('location: ../../');
+  exit;
 }

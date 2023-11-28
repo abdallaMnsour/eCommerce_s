@@ -1,3 +1,36 @@
+<?php
+session_start();
+if (isset($_GET['clear']) && $_GET['clear'] == 'true') {
+	session_unset();
+}
+if (isset($_SESSION['person'])) {
+	$username = $_SESSION['person']['username'];
+	$email = $_SESSION['person']['email'];
+	$password1 = $_SESSION['person']['password1'];
+	$password2 = $_SESSION['person']['password2'];
+	$address1 = $_SESSION['person']['address1'];
+	$address2 = $_SESSION['person']['address2'];
+	$phone = $_SESSION['person']['phone'];
+	$country = $_SESSION['person']['country'];
+	$county = $_SESSION['person']['county'];
+	$city = $_SESSION['person']['city'];
+	$gender = $_SESSION['person']['gender'];
+} else {
+	$username = '';
+	$email = '';
+	$password1 = '';
+	$password2 = '';
+	$address1 = '';
+	$address2 = '';
+	$phone = '';
+	$country = '';
+	$county = '';
+	$city = '';
+	$gender = '';
+}
+
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -27,66 +60,105 @@
 					</h4>
 					<form action="../functions/users/register.php" method="post" enctype="multipart/form-data">
 
+						<!-- التحقق مما اذا قام المستخدم بالقيام ببعض التعديلات في حقول الادخال -->
+						<?php if (isset($_SESSION['input_false'])) : ?>
+							<div class="alert alert-danger"><i class="fa-solid fa-triangle-exclamation"></i> <?= $_SESSION['input_false'] ?></div>
+						<?php endif; ?>
+
 						<div class="form-input">
 							<span><i class="fa fa-user-o"></i></span>
-							<input type="text" name="username" placeholder="Full Name" required />
+							<input type="text" name="username" placeholder="Full Name" required value="<?= $username ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['username'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['username'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa fa-envelope-o"></i></span>
-							<input type="email" name="email" placeholder="Email Address" tabindex="10" required />
+							<input type="email" name="email" placeholder="Email Address" required value="<?= $email ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['email'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['email'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa fa-key"></i></span>
-							<input type="password" name="password1" placeholder="Password" required />
+							<input type="password" name="password1" placeholder="Password" required value="<?= $password1 ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['password'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['password'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa fa-key"></i></span>
-							<input type="password" name="password2" placeholder="Password" required />
+							<input type="password" name="password2" placeholder="Password" required value="<?= $password2 ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['password2'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['password2'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa-solid fa-location-dot"></i></span>
-							<input type="text" name="address1" placeholder="Address 1" required />
+							<input type="text" name="address1" placeholder="Address 1" required value="<?= $address1 ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['address'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['address'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa-solid fa-location-dot"></i></span>
-							<input type="text" name="address2" placeholder="Address 2" required />
+							<input type="text" name="address2" placeholder="Address 2" value="<?= $address2 ?>" />
 						</div>
 
 						<div class="form-input">
 							<span><i class="fa-solid fa-phone"></i></span>
-							<input type="text" name="phone" placeholder="Phone" required />
+							<input type="text" name="phone" placeholder="Phone" required value="<?= $phone ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['phone'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['phone'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa-regular fa-flag"></i></span>
-							<input type="text" name="county" placeholder="County" required />
+							<input type="text" name="county" placeholder="County" required value="<?= $county ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['county'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['county'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input">
 							<span><i class="fa-solid fa-city"></i></span>
-							<input type="text" name="city" placeholder="city" required />
+							<input type="text" name="city" placeholder="city" required value="<?= $city ?>" />
 						</div>
+						<?php if (isset($_SESSION['errors']['city'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['city'] ?></div>
+						<?php endif; ?>
 
-						<div class="col-lg-6 form-group">
+						<div class="form-group">
 							<label class="text-small text-uppercase" for="country">Country</label>
-							<select name="country" aria-label="Default select example" class="form-select selectpicker country w-75" id="country" data-width="fit" data-style="form-control form-control-lg" data-title="Select your country"></select>
+							<select name="country" aria-label="Default select example" class="form-select selectpicker country w-100" id="country" data-width="fit" data-style="form-control form-control-lg" data-title="Select your country">
+								<?php if (isset($_SESSION['person']['country'])) ?>
+								<option value="<?= $country ?>"><?= $country ?></option>
+								<?php  ?>
+							</select>
 						</div>
+						<?php if (isset($_SESSION['errors']['country'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['country'] ?></div>
+						<?php endif; ?>
 
 						<div class="mb-3">
 							<label for="image" class="form-label">You'r image</label>
 							<input class="form-control" type="file" name="image" id="image">
 						</div>
+						<?php if (isset($_SESSION['errors']['image'])) : ?>
+							<div class="alert alert-danger"><?= $_SESSION['errors']['image'] ?></div>
+						<?php endif; ?>
 
 						<div class="form-input pl-2">
 							<span style="position: relative;" class="d-block pl-0"><i class="d-block mb-2 fa-solid fa-venus-mars"></i></span>
 							<label class="mb-0">Gender</label><br>
-							<input style="width:10px;height:10px" class="mb-0" type="radio" name="gender" value="0" required /> male <br>
-							<input style="width:10px;height:10px" class="" type="radio" name="gender" value="1" required /> female
+							<input style="width:10px;height:10px" class="mb-0" type="radio" name="gender" value="0" <?= $gender == 0 ? 'checked' : '' ?> required id="male" /> <label for="male" class="m-0">male</label> <br>
+							<input style="width:10px;height:10px" class="" type="radio" name="gender" value="1" <?= $gender == 1 ? 'checked' : '' ?> required id="female"/> <label for="female" class="m-0">female</label>
 						</div>
 
 						<div class="mb-3 d-flex align-items-center">
@@ -101,6 +173,8 @@
 								Register
 							</button>
 						</div>
+						<a href="?clear=true" class="link link-danger"><i class="fa-solid fa-triangle-exclamation"></i> clear the input</a>
+
 
 						<div class="text-center mb-3">
 							or register with
@@ -132,6 +206,7 @@
 							Already have an account
 							<a class="login-link" href="login.php">Login here</a>
 						</div>
+
 					</form>
 				</div>
 			</div>
@@ -151,3 +226,6 @@
 </body>
 
 </html>
+
+<?php
+$_SESSION['input_false'] = null;

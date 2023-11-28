@@ -29,5 +29,7 @@
         <!-- Sweet alert init js-->
         <script src="assets/js/pages/sweet-alerts.init.js"></script>
 
+        <!-- Plugins js -->
+        <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
     </body>
 </html>
