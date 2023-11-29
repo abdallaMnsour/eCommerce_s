@@ -1,11 +1,13 @@
 <?php
 require_once 'functions/connect.php';
-mysqli_query($conn, 'DELETE from users WHERE id = 0');
 session_start();
 $user_bool = false;
 if (isset($_SESSION['user_login'])) {
   $user_bool = true;
   $user = $_SESSION['user_login'];
+  if ($user['priv'] == 1) {
+    $_SESSION['user_admin'] = $user;
+  }
 }
 ?>
 <!DOCTYPE html>

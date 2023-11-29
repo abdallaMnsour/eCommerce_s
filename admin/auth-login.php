@@ -1,3 +1,10 @@
+<?php
+if (isset($_GET['no_user'])) {
+	$email = $_GET['no_user'];
+} else {
+	$email = '';
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -39,28 +46,28 @@
                         <h4 class="text-muted text-center font-size-18"><b>Sign In</b></h4>
     
                         <div class="p-3">
-                            <form class="form-horizontal mt-3" action="index.php">
+                            <form class="form-horizontal mt-3" action="functions/users/login.php" method="post">
     
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" type="text" required="" placeholder="Username">
+                                        <input name="email" class="form-control" type="text" required="" placeholder="E-mail" value="<?= $email ?? '' ?>" />
                                     </div>
                                 </div>
     
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" type="password" required="" placeholder="Password">
+                                        <input name="password" class="form-control" type="password" required="" placeholder="Password">
                                     </div>
                                 </div>
-    
-                                <div class="form-group mb-3 row">
+
+                                <!-- <div class="form-group mb-3 row">
                                     <div class="col-12">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                                             <label class="form-label ms-1" for="customCheck1">Remember me</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
     
                                 <div class="form-group mb-3 text-center row mt-3 pt-1">
                                     <div class="col-12">

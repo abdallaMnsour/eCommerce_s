@@ -1,8 +1,12 @@
 <?php
-// if (!isset($_SESSION['user_admin'])) {
-//     header('location: ../');
-//     exit;
-// }
+session_start();
+if (!isset($_SESSION['user_admin'])) {
+    header('location: auth-login.php');
+    exit;
+} else {
+    $admin = $_SESSION['user_admin'];
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -42,9 +46,6 @@
 
     <!-- ION Slider -->
     <link href="assets/libs/ion-rangeslider/css/ion.rangeSlider.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- Sweet Alert-->
-    <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
     <!-- Plugins css -->
     <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
@@ -291,7 +292,7 @@
 
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="../img/users/<?= $admin['image'] ?>" alt="Header Avatar">
                             <span class="d-none d-xl-inline-block ms-1">Julia</span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
@@ -300,7 +301,7 @@
                             <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
                             <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My Wallet</a>
                             <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
-                            <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
+                            <a class="dropdown-item" href="auth-lock-screen.php"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                         </div>
@@ -324,10 +325,10 @@
                 <!-- User details -->
                 <div class="user-profile text-center mt-3">
                     <div class="">
-                        <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-md rounded-circle">
+                        <img src="../img/users/<?= $admin['image'] ?>" alt="" class="avatar-md rounded-circle">
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-size-16 mb-1">Julia Hudda</h4>
+                        <h4 class="font-size-16 mb-1"><?= $admin['username'] ?></h4>
                         <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i> Online</span>
                     </div>
                 </div>
