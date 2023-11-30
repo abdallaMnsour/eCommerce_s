@@ -13,20 +13,22 @@ require_once 'functions/connect.php';
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <?php if (isset($_GET['error_update']) && $_GET['error_update'] == 'no_user_id') : ?>
+              <?php if (isset($_SESSION['error_update']) && $_SESSION['error_update'] == 'no_user_id') : ?>
                 <div class="alert alert-danger alert-dismissible">
-                  <strong><?= $_GET['error_update']?>!</strong> : no id number :(<br>You have entered the edit page in a wrong way.<a href="../contact_us.php">contact us</a>
-                  <a href="?" class="btn-close"></a>
+                  <strong><?= $_SESSION['error_update']?>!</strong> : no id number :(<br>You have entered the edit page in a wrong way. If the problem persists please <a href="mailto:a.mansour.code@gmail.com">contact with developer</a>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               <?php
+                unset($_SESSION['error_update']);
                 endif;
               ?>
-              <?php if (isset($_GET['error_update']) && $_GET['error_update'] == 'no_user_database') : ?>
+              <?php if (isset($_SESSION['error_update']) && $_SESSION['error_update'] == 'no_user_database') : ?>
                 <div class="alert alert-danger alert-dismissible">
-                  <strong><?= $_GET['error_update']?>!</strong> : wrong id number :(<br>id is wrong please try again, If the problem persists please <a href="../contact_us.php">contact us</a>
-                  <a href="?" class="btn-close"></a>
+                  <strong><?= $_SESSION['error_update']?>!</strong> : wrong id number :(<br>id is wrong please try again, If the problem persists please <a href="mailto:a.mansour.code@gmail.com" >contact with developer</a>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               <?php
+                unset($_SESSION['error_update']);
                 endif;
               ?>
               <h4 class="card-title">Alternative Pagination</h4>

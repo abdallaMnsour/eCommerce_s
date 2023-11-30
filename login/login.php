@@ -7,6 +7,7 @@ if (isset($_GET['no_user'])) {
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Login</title>
 	<meta charset="utf-8">
@@ -23,12 +24,15 @@ if (isset($_GET['no_user'])) {
 			<div class="col-lg-6 form-block px-4">
 				<div class="col-lg-8 col-md-6 col-sm-8 col-xs-12 form-box">
 					<div class="text-center mb-3 mt-5">
-						<img  src="logo.png" width="150px">
+						<img src="logo.png" width="150px">
 					</div>
 					<h4 class="text-center mb-4">
 						Login into account
 					</h4>
 					<form action="../functions/users/login.php" method="post">
+						<?php if (isset($_GET['no_user'])) : ?>
+							<div class="alert alert-danger">email or password is wrong please try again</div>
+						<?php endif; ?>
 						<div class="form-input">
 							<span><i class="fa fa-envelope-o"></i></span>
 							<input type="email" name="email" placeholder="Email Address" required value="<?= $email ?? '' ?>" />
@@ -37,7 +41,7 @@ if (isset($_GET['no_user'])) {
 							<span><i class="fa fa-key"></i></span>
 							<input type="password" name="password" placeholder="Password" required>
 						</div>
-							
+
 						<div class="mb-3 d-flex align-items-center">
 							<div class="custom-control custom-checkbox">
 								<input type="checkbox" class="custom-control-input" id="cb1">
@@ -45,7 +49,7 @@ if (isset($_GET['no_user'])) {
 							</div>
 						</div>
 
-						<div class="mb-3"> 
+						<div class="mb-3">
 							<button type="submit" class="btn btn-block">
 								Login
 							</button>
@@ -60,7 +64,7 @@ if (isset($_GET['no_user'])) {
 						<div class="text-center mb-3">
 							or login with
 						</div>
-							
+
 						<div class="row mb-3">
 							<div class="col-4">
 								<a href="" class="btn btn-block btn-social btn-facebook">
@@ -73,16 +77,16 @@ if (isset($_GET['no_user'])) {
 									<i class="fa fa-google"></i>
 								</a>
 							</div>
-							
+
 							<div class="col-4">
 								<a href="" class="btn btn-block btn-social btn-twitter">
 									<i class="fa fa-twitter"></i>
 								</a>
 							</div>
 						</div>
-							
+
 						<div class="text-center mb-5">
-							Don't have an account? 
+							Don't have an account?
 							<a class="register-link" href="register.php">Register here</a>
 						</div>
 					</form>
@@ -93,4 +97,5 @@ if (isset($_GET['no_user'])) {
 		</div>
 	</div>
 </body>
+
 </html>

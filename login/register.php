@@ -65,6 +65,11 @@ if (isset($_SESSION['person'])) {
 							<div class="alert alert-danger"><i class="fa-solid fa-triangle-exclamation"></i> <?= $_SESSION['input_false'] ?></div>
 						<?php endif; ?>
 
+						<!-- التحقق مما اذا كان هناك خطا في ال sql ام لا -->
+						<?php if (isset($_SESSION['errors']['sql'])) : ?>
+							<div class="alert alert-danger mb-5"><i class="fa-solid fa-triangle-exclamation"></i> you have an error in you'r sql<br><b>message :</b> <?= $_SESSION['errors_update']['sql'] ?> please <a href="mailto:a.mansour.code@gmail.com">contact with developer</a></div>
+						<?php endif; ?>
+
 						<div class="form-input">
 							<span><i class="fa fa-user-o"></i></span>
 							<input type="text" name="username" placeholder="Full Name" required value="<?= $username ?>" />
@@ -137,9 +142,9 @@ if (isset($_SESSION['person'])) {
 						<div class="form-group">
 							<label class="text-small text-uppercase" for="country">Country</label>
 							<select name="country" aria-label="Default select example" class="form-select selectpicker country w-100" id="country" data-width="fit" data-style="form-control form-control-lg" data-title="Select your country">
-								<?php if (isset($_SESSION['person']['country'])) ?>
-								<option value="<?= $country ?>"><?= $country ?></option>
-								<?php  ?>
+								<?php if (isset($_SESSION['person']['country'])) : ?>
+									<option value="<?= $country ?>"><?= $country ?></option>
+								<?php endif; ?>
 							</select>
 						</div>
 						<?php if (isset($_SESSION['errors']['country'])) : ?>
@@ -158,7 +163,7 @@ if (isset($_SESSION['person'])) {
 							<span style="position: relative;" class="d-block pl-0"><i class="d-block mb-2 fa-solid fa-venus-mars"></i></span>
 							<label class="mb-0">Gender</label><br>
 							<input style="width:10px;height:10px" class="mb-0" type="radio" name="gender" value="0" <?= $gender == 0 ? 'checked' : '' ?> required id="male" /> <label for="male" class="m-0">male</label> <br>
-							<input style="width:10px;height:10px" class="" type="radio" name="gender" value="1" <?= $gender == 1 ? 'checked' : '' ?> required id="female"/> <label for="female" class="m-0">female</label>
+							<input style="width:10px;height:10px" class="" type="radio" name="gender" value="1" <?= $gender == 1 ? 'checked' : '' ?> required id="female" /> <label for="female" class="m-0">female</label>
 						</div>
 
 						<div class="mb-3 d-flex align-items-center">

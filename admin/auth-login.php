@@ -1,66 +1,68 @@
 <?php
 if (isset($_GET['no_user'])) {
-	$email = $_GET['no_user'];
+    $email = $_GET['no_user'];
 } else {
-	$email = '';
+    $email = '';
 }
 ?>
 <!doctype html>
 <html lang="en">
 
-    <head>
-        
-        <meta charset="utf-8" />
-        <title>Login | Upcube - Admin & Dashboard Template</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-        <meta content="Themesdesign" name="author" />
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+<head>
 
-        <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8" />
+    <title>Login | Upcube - Admin & Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-    </head>
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
-    <body class="auth-body-bg">
-        <div class="bg-overlay"></div>
-        <div class="wrapper-page">
-            <div class="container-fluid p-0">
-                <div class="card">
-                    <div class="card-body">
+</head>
 
-                        <div class="text-center mt-4">
-                            <div class="mb-3">
-                                <a href="index.php" class="auth-logo">
-                                    <img src="assets/images/logo-dark.png" height="30" class="logo-dark mx-auto" alt="">
-                                    <img src="assets/images/logo-light.png" height="30" class="logo-light mx-auto" alt="">
-                                </a>
-                            </div>
+<body class="auth-body-bg">
+    <div class="bg-overlay"></div>
+    <div class="wrapper-page">
+        <div class="container-fluid p-0">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="text-center mt-4">
+                        <div class="mb-3">
+                            <a href="index.php" class="auth-logo">
+                                <img src="assets/images/logo-dark.png" height="30" class="logo-dark mx-auto" alt="">
+                                <img src="assets/images/logo-light.png" height="30" class="logo-light mx-auto" alt="">
+                            </a>
                         </div>
-    
-                        <h4 class="text-muted text-center font-size-18"><b>Sign In</b></h4>
-    
-                        <div class="p-3">
-                            <form class="form-horizontal mt-3" action="functions/users/login.php" method="post">
-    
-                                <div class="form-group mb-3 row">
-                                    <div class="col-12">
-                                        <input name="email" class="form-control" type="text" required="" placeholder="E-mail" value="<?= $email ?? '' ?>" />
-                                    </div>
-                                </div>
-    
-                                <div class="form-group mb-3 row">
-                                    <div class="col-12">
-                                        <input name="password" class="form-control" type="password" required="" placeholder="Password">
-                                    </div>
-                                </div>
+                    </div>
 
-                                <!-- <div class="form-group mb-3 row">
+                    <h4 class="text-muted text-center font-size-18"><b>Sign In</b></h4>
+
+                    <div class="p-3">
+                        <form class="form-horizontal mt-3" action="functions/users/login.php" method="post">
+                            <?php if (isset($_GET['no_user'])) : ?>
+                                <div class="alert alert-danger">email or password is wrong</div>
+                            <?php endif; ?>
+                            <div class="form-group mb-3 row">
+                                <div class="col-12">
+                                    <input name="email" class="form-control" type="text" required="" placeholder="E-mail" value="<?= $email ?? '' ?>" />
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3 row">
+                                <div class="col-12">
+                                    <input name="password" class="form-control" type="password" required="" placeholder="Password">
+                                </div>
+                            </div>
+
+                            <!-- <div class="form-group mb-3 row">
                                     <div class="col-12">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -68,41 +70,42 @@ if (isset($_GET['no_user'])) {
                                         </div>
                                     </div>
                                 </div> -->
-    
-                                <div class="form-group mb-3 text-center row mt-3 pt-1">
-                                    <div class="col-12">
-                                        <button class="btn btn-info w-100 waves-effect waves-light" type="submit">Log In</button>
-                                    </div>
+
+                            <div class="form-group mb-3 text-center row mt-3 pt-1">
+                                <div class="col-12">
+                                    <button class="btn btn-info w-100 waves-effect waves-light" type="submit">Log In</button>
                                 </div>
-    
-                                <div class="form-group mb-0 row mt-2">
-                                    <div class="col-sm-7 mt-3">
-                                        <a href="auth-recoverpw.php" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a>
-                                    </div>
-                                    <div class="col-sm-5 mt-3">
-                                        <a href="auth-register.php" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a>
-                                    </div>
+                            </div>
+
+                            <div class="form-group mb-0 row mt-2">
+                                <div class="col-sm-7 mt-3">
+                                    <a href="auth-recoverpw.php" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a>
                                 </div>
-                            </form>
-                        </div>
-                        <!-- end -->
+                                <div class="col-sm-5 mt-3">
+                                    <a href="auth-register.php" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <!-- end cardbody -->
+                    <!-- end -->
                 </div>
-                <!-- end card -->
+                <!-- end cardbody -->
             </div>
-            <!-- end container -->
+            <!-- end card -->
         </div>
-        <!-- end -->
+        <!-- end container -->
+    </div>
+    <!-- end -->
 
-        <!-- JAVASCRIPT -->
-        <script src="assets/libs/jquery/jquery.min.js"></script>
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
+    <!-- JAVASCRIPT -->
+    <script src="assets/libs/jquery/jquery.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/node-waves/waves.min.js"></script>
 
-        <script src="assets/js/app.js"></script>
+    <script src="assets/js/app.js"></script>
 
-    </body>
+</body>
+
 </html>
